@@ -1,0 +1,42 @@
+@import "./common.css";
+@import "./nav.css";
+@import "./footer.css";
+@import "./post.css";
+
+.welcome {
+  text-align: center;
+}
+
+.post-card .card-title {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  align-self: center;
+}
+
+.post-card .card-img {
+  width: 100%;
+}
+
+.post-card .card-btn {
+  margin-top: auto;
+}
+
+.intro {
+  font-size: var(--bigger);
+}
+
+.posts-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-items: center;
+  grid-gap: 2rem;;
+}
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+  padding: .75rem;
+  background-color: var(--card-bg-color);
+  border-radius: 1rem;
+  box-shadow: 0 0 8px 0 rgba(17,22,26,0.16), 0 4px 8px 0 rgba(17,22,26,0.08), 0 8px 16px 0 rgba(17,22,26,0.08);
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to find ghost CSS elements</title>
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-link">Home</a>
+  </nav>
+
+  <div class="back-link">
+    <a href="../index.html" class="btn btn-secondary">Back to posts</a>
+  </div>
+
+  <header class="post-title">
+    <h1 class="main-header">How to find ghost CSS elements</h1>
+    <span class="post-details">
+      Published on 29/03/2020 by David Ojeda
+    </span>
+  </header>
+
+  <article class="post-content">
+    <p>
+      A gated commit, also called a pre-tested commit, is an integration pattern in which a commit is not approved until a set of tests are ran against the code being commited. In other words, the commit does not go through if the test suite fails.
+    </p>
+
+    <p>
+      <strong>Why do you want this?</strong> It makes your application more resilient to change since now you are running a set or sub-set of your tests even before that code is available to anyone else.
+    </p>
+
+    <p>
+      I am going to show you how to implement a gated commit pattern with Git. In this example, our <strong>unit test suite</strong> will be the gate to allow our commits to make it to the codebase.
+    </p>
+
+    <h2>What do you need?</h2>
+
+    <ul>
+      <li>Git</li>
+      <li>Your application's repo</li>
+      <li>A test suite</li>
+    </ul>
+
+    <h2>Starting off: Git Hooks</h2>
+
+    <p>
+      First, what is a webhook? Quoting from the <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git docs</a>:
+    </p>
+
+    <blockquote>
+      Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client-side and server-side. Client-side hooks are triggered by operations such as committing and merging, while server-side hooks run on network operations such as receiving pushed commits. You can use these hooks for all sorts of reasons.
+    </blockquote>
+
+    <p>
+      We want our tests to run before a commit goes through. Git allows us to run custom commands just before that event happens thanks to Git hooks. I am not going to go into the details on how they work, but conveniently for us, there is a hook called pre-commit. This hook is executed just before the commit happens. Perfect spot for our test suite to run.
+    </p>
+
+    <h3>Setting up a pre-commit hook</h3>
+
+    <p>
+      In your Git repo, there is a folder named .git in which the hooks are stored. If you have never modified any hook, your .git directory structure will look like this:
+    </p>
+
+    <figure>
+      <img class="post-img" src="https://res.cloudinary.com/practicaldev/image/fetch/s--OhtsWgiB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/ldij14knuw0xko7a2dcq.png" alt="Directory structure">
+      <figcaption>Directory structure</figcaption>
+    </figure>
+
+    <p>
+      To create our hook, we need to have a file called <strong>pre-commit</strong> (no extension required) inside our hooks directory. Let's create it. The only thing the file needs to have is the command you use to run your tests. Also, don't forget to make the file executable (chmod +x).
+    </p>
+
+    <p>
+      f your application is, let's say, a Ruby application, you probably run your tests using rake. If that's the case, your pre-commit file will look like this:
+    </p>
+
+    <pre>
+      rake test:units
+    </pre>
+
+    <p>
+      Or if you are into the JS hype, you can probably have this in your file:
+    </p>
+
+    <pre>
+      npm tests
+    </pre>
+
+    <p>
+      Independently of the language/framework you are using, your pre-commit hook needs to have the command to run your unit test suite. And, as long as the code inside the hook returns a zero exit code, the hook will allow the code to be commited. Otherwise, the commit will be rejected.
+    </p>
+
+    <h2>Testing</h2>
+
+    <p>
+      At this point you can go ahead and make a commit and see how our tests are run (and hopefully pass), thus opening the gate and letting the commit pass uncontested.
+    </p>
+
+    <p>
+      In the following example I am using a Grails application, and the pre-commit hook contains the following code:
+    </p>
+
+    <pre>
+      grails test-app -unit
+    </pre>
+
+    <figure>
+      <img class="post-img" src="https://res.cloudinary.com/practicaldev/image/fetch/s--tbgaIl-A--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/0oemd9h0kt5luq5ag79g.png" alt="Successful unit tests after commit">
+      <figcaption>Successful unit tests after commit</figcaption>
+    </figure>
+
+    <p>
+      <strong>Success!</strong> 🥳
+    </p>
+
+    <p>
+      In the case that the test suite fails:
+    </p>
+
+    <figure>
+      <img class="post-img" src="https://res.cloudinary.com/practicaldev/image/fetch/s--yaCCafcA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/4g9jrtcxh85z1av658vq.png" alt="Failing unit tests after commit">
+      <figcaption>Failing unit tests after commit</figcaption>
+    </figure>
+
+    <h2>
+      Wrapping up
+    </h2>
+
+    <p>
+      We have just created a Git pre-commit hook that contains specific commands to execute our app's unit test suite. Whenever a commit is issued, our tests run. If tests pass, we have a successful commit, if not, commit is rejected.
+    </p>
+
+    <p>
+      You can extend your tests of the pre-commit hook and build something as complex as you need. You can, for example, run a linter tool to make sure style guidelines are being followed. Or take it to the next level and integrate it with your Continuous Integration flow using additional hooks.
+    </p>
+
+    <p class="underline">
+      Hope this helps you build more resilience into your codebase and, ultimately, deliver more value to your customers in a safe and rapid fashion!
+    </p>
+
+  </article>
+
+  <div class="back-link">
+    <a href="../index.html" class="btn btn-secondary">Back to posts</a>
+  </div>
+
+  <section class="author-info">
+    <div class="avatar">
+      <img width="100" class="avatar-img" src="https://res.cloudinary.com/practicaldev/image/fetch/s--rpsRGhsG--/c_fill,f_auto,fl_progressive,h_180,q_auto,w_180/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/18156/6e360d85-3ca0-41c4-a1e9-58fe52b10202.png" alt="">
+    </div>
+    <div class="name">
+      <strong>David Ojeda</strong>, Full-stack software developer at <a href="https://handy.la" target="_blank" rel="noopener">Handy</a>.
+    </div>
+    <div class="bio">
+      <span>Web developer 👨🏻‍💻</span>
+      <span>AWS Solutions Architect 🏗</span>
+      <span>Overwatch amateur 🎮</span>
+      <span>Privacy advocate 🕵🏼‍♀️</span>
+    </div>
+    <div class="social">
+      <a href="https://twitter.com/DavidOjedaL" target="_blank" rel="noopener">Twitter</a>
+      <a href="https://dev.to/david_ojeda/" target="_blank" rel="noopener">DEV</a>
+      <a href="https://www.linkedin.com/in/david-ojeda-lopez/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Created by David Ojeda for Udacity's front end Nanodegree.
+  </footer>
+</body>
+</html>

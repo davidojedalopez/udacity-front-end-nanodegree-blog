@@ -1,0 +1,14 @@
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 2px solid var(--text-secondary-color);
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  background-color: var(--card-bg-color);
+}
+
+.nav .nav-link {
+  color: var(--text-primary-color);
+  text-decoration: none;
+}

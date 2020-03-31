@@ -1,0 +1,66 @@
+:root {
+  --main-bg-color: #f0ece2;
+  --card-bg-color: #acdbdf;
+
+  --text-primary-color: #010101;
+  --text-secondary-color: #69779b;
+
+  --huge: 2em;
+  --bigger: 1.2em;
+  --big: 1.1em;
+  --small: .9em;
+  --smaller: .8em;
+}
+
+
+body {
+  margin: 0;
+  background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+main, article {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  flex: 1 0 auto;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: var(--huge);
+}
+
+h2 {
+  font-size: var(-bigger);
+}
+
+h3 {
+  font-size: var(--big);
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.btn {
+  padding: .5rem;
+  border-radius: 5%;
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 rgba(17,22,26,0.16), 0 2px 4px 0 rgba(17,22,26,0.08), 0 4px 8px 0 rgba(17,22,26,0.08);
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--main-bg-color);
+}
+
+.btn-secondary {
+  background-color: var(--card-bg-color);
+  color: var(--text-primary-color);
+}
+
+.btn:hover {
+  box-shadow: 0 0 8px 0 rgba(17,22,26,0.16), 0 4px 8px 0 rgba(17,22,26,0.08), 0 8px 16px 0 rgba(17,22,26,0.08);
+}
+

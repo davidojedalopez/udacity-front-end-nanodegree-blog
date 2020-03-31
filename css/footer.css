@@ -1,0 +1,7 @@
+.footer {
+  flex-shrink: 0;
+  padding: 1rem;
+  background-color: var(--card-bg-color);
+  color: var(--text-primary-color);
+  border-top: 2px solid var(--text-secondary-color);  
+}
