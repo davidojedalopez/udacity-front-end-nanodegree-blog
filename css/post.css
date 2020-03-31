@@ -41,12 +41,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
 }
 
 .avatar .avatar-img {
   border-radius: 50%;
+  width: 100px;
+  height: 100px;
 }
 
 .name {
